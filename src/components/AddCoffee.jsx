@@ -1,34 +1,53 @@
+import Swal from "sweetalert2";
 
 const AddCoffee = () => {
+	const handleAddCoffee = (event) => {
+		event.preventDefault();
 
-    const handleAddCoffee = event => {
-         event.preventDefault();
+		const form = event.target;
 
-			const form = event.target;
+		const name = form.name.value;
+		const quantity = form.quantity.value;
+		const supplier = form.supplier.value;
+		const taste = form.taste.value;
+		const category = form.category.value;
+		const details = form.details.value;
+		const photo = form.photo.value;
 
-			const name = form.name.value;
-			const quantity = form.quantity.value;
-			const supplier = form.supplier.value;
-			const taste = form.taste.value;
-			const category = form.category.value;
-			const details = form.details.value;
-			const photo = form.photo.value;
+		const newCoffee = {
+			name,
+			quantity,
+			supplier,
+			taste,
+			category,
+			details,
+			photo,
+		};
 
-			const newCoffee = {
-				name,
-				quantity,
-				supplier,
-				taste,
-				category,
-				details,
-				photo,
-        };
-        
-           console.log(newCoffee);
-          
-      }
+		console.log(newCoffee);
 
-    return (
+		fetch("http://localhost:5000/coffee", {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify(newCoffee),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data)
+				if (data.insertedId) {
+					Swal.fire({
+						title: "Success!",
+						text: "User Added Successfully",
+						icon: "success",
+						confirmButtonText: "ok",
+					});
+				}
+			});
+	};
+
+	return (
 		<div className="bg-[#F4F3F0] p-24">
 			<h1 className="text-3xl font-extrabold mb-5 ">Add a coffee</h1>
 			<form onSubmit={handleAddCoffee}>
