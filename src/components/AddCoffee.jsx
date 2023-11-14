@@ -24,7 +24,7 @@ const AddCoffee = () => {
 			photo,
 		};
 
-		console.log(newCoffee);
+		// console.log(newCoffee);
 
 		fetch("http://localhost:5000/coffee", {
 			method: "POST",
